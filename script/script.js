@@ -58,4 +58,25 @@ window.addEventListener('scroll', () => {
         header.classList.remove('header-active');
     }
 });
+
+    / --- 5. SCROLL SUAVE PARA LINKS INTERNOS ---
+    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault(); // Impede o pulo seco padrão
+
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+                // Calcula a posição descontando a altura do header para não cobrir o título
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const targetPosition = targetElement.offsetTop - headerHeight;
+
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth' // A mágica acontece aqui
+                });
+            }
+        });
+    });
 });
